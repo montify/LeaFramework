@@ -41,18 +41,16 @@ namespace Engine
 	    m_vertexBuffer = std::make_unique<VertexBuffer>();
 		m_vertexBuffer->SetData<VertexPositionColor, 6>(graphicsDevice->GetDevice1(), vertices);
 		
-
-		std::ifstream vsFile("C:\\Users\\alex\\source\\repos\\Win32Test\\Debug\\basicVS.cso", std::ios::binary);
-		std::ifstream psFile("C:\\Users\\alex\\source\\repos\\Win32Test\\Debug\\basicPS.cso", std::ios::binary);
-		std::vector<char> vsData = { std::istreambuf_iterator<char>(vsFile), std::istreambuf_iterator<char>() };
-		std::vector<char> psData = { std::istreambuf_iterator<char>(psFile), std::istreambuf_iterator<char>() };
-		
-		
-	    graphicsDevice->GetDevice1().CreateVertexShader(vsData.data(), vsData.size(), nullptr, &vertexShader);
-		graphicsDevice->GetDevice1().CreatePixelShader(psData.data(), psData.size(), nullptr, &pixelShader);
-		
-		graphicsDevice->GetDevice1().CreateInputLayout(VertexPositionColor::vertexDescV1, 2, vsData.data(), vsData.size(), &inputLayout);
 	
+		
+		ShaderCreateInfo createInfo{};
+		createInfo.vsPath = "C:\\Users\\alex\\source\\repos\\Win32Test\\Debug\\basicVS.cso";
+		createInfo.psPath = "C:\\Users\\alex\\source\\repos\\Win32Test\\Debug\\basicPS.cso";
+		createInfo.inputDesc = VertexPositionColor::GetInputLayout();
+
+		shaderProgramm = new ShaderProgramm(createInfo, *graphicsDevice);
+		
+
 		struct CBufferStruct
 		{
 			DirectX::XMFLOAT4 Color;
@@ -79,11 +77,11 @@ namespace Engine
 		const UINT stride = sizeof(vertices[0]);
 		const UINT offset = 0;
 
-	    graphicsDevice->GetContext1().IASetInputLayout(inputLayout);
+	    graphicsDevice->GetContext1().IASetInputLayout(shaderProgramm->GetInputLayout());
 	
 
-		graphicsDevice->SetVertexShader(*vertexShader);
-		graphicsDevice->SetPixelShader(*pixelShader);
+		graphicsDevice->SetVertexShader(*shaderProgramm->GetVertexShader());
+		graphicsDevice->SetPixelShader(*shaderProgramm->GetPixelShader());
 		graphicsDevice->SetVertexBuffer(*m_vertexBuffer, sizeof(VertexPositionColor));
 	
 		
@@ -91,11 +89,12 @@ namespace Engine
 		graphicsDevice->GetContext1().Draw(6, 0);
 	}
 
+
 	Game01::~Game01()
 	{
 		SAFE_RELEASE(vertexShader);
 		SAFE_RELEASE(pixelShader);
 		SAFE_RELEASE(inputLayout);
-		
+		delete shaderProgramm;
 	}
 }

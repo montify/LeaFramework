@@ -6,6 +6,7 @@
 #include "RenderSystem/VertexPostitionColor.h"
 #include "RenderSystem/Color.h"
 #include "RenderSystem/ConstantBuffer.h"
+#include "RenderSystem/ShaderProgramm.h"
 
 namespace Engine
 {
@@ -20,13 +21,14 @@ namespace Engine
 
 	private:
 		VertexPositionColor vertices[6];
-
+		ID3DBlob* vsBlob;
 		std::unique_ptr<VertexBuffer> m_vertexBuffer;
 		std::unique_ptr<ConstantBuffer> m_constantBuffer;
 		ID3D11VertexShader* vertexShader = nullptr;
 		ID3D11PixelShader* pixelShader = nullptr;
 		ID3D11InputLayout* inputLayout = nullptr;
-		
+		ShaderProgramm* shaderProgramm;
+
 	};
 }
 

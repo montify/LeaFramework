@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\RenderSystem\ShaderProgramm.cpp" />
     <ClCompile Include="src\InputSystem\InputManager.cpp" />
     <ClCompile Include="src\Game01.cpp" />
     <ClCompile Include="src\Game.cpp" />
@@ -149,6 +150,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\RenderSystem\ShaderCreateInfo.h" />
+    <ClInclude Include="src\RenderSystem\ShaderProgramm.h" />
     <ClInclude Include="src\EventSystem\EventArgsOnKeyUp.h" />
     <ClInclude Include="src\InputSystem\InputManager.h" />
     <ClInclude Include="src\EventSystem\EventArgsMousePosition.h" />
